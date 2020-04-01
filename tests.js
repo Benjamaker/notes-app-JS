@@ -49,3 +49,22 @@ function testNoteView(){
   assert.isTrue(p.viewNotes() === "<ul><li><div>first thing</div></li><li><div>second thing</div></li></ul>")
 };
 testNoteView();
+
+function aNoteControllerCanBeInstantiated(){
+  const nl = new NoteList();
+  nl.createNote("first thing");
+  nl.createNote("second thing");
+  const nc = new NoteController(nl);
+  assert.isTrue(nc.noteListView.notelist === nl);
+};
+aNoteControllerCanBeInstantiated();
+
+function testGetHTMLReturnsCorrectHTML(){
+  function DoubleList() {
+    this.notes = [{text: "fake note 1"} , {text: "fake note 2"}]
+  };
+  const dl = new DoubleList();
+  const nc = new NoteController(dl);
+  assert.isTrue(nc.getHTML() === "<ul><li><div>fake note 1</div></li><li><div>fake note 2</div></li></ul>")
+};
+testGetHTMLReturnsCorrectHTML();

@@ -8,7 +8,6 @@ NoteListView.prototype.viewNotes = function(){
   mapped = (this.notelist.notes).map(item => item.text)
   joined = mapped.join().replace(",", "</div></li><li><div>");
   finalOutput = "<ul><li><div>" + joined + "</div></li></ul>";
-  console.log(finalOutput);
   return finalOutput;
 };
 
