@@ -1,12 +1,3 @@
-var assert = {
-  isTrue: function(assertionToCheck) {
-    if (!assertionToCheck) {
-      throw new Error("Assertion failed:" + assertionToCheck + "is not truthy")
-    } else {
-      console.log("%c Your test passed!!", "color: green");
-    }
-  }
-};
 
 
 function testGetText() {
@@ -17,8 +8,9 @@ testGetText();
 
 function testCreateNote() {
   const x = new NoteList();
-  assert.isTrue(x.createNote("one note").getText() === "one note");
-  assert.isTrue(x.createNote("other note"));
+  x.createNote("one note");
+  x.createNote("other note");
+  assert.isTrue(x.notes[0].getText() === "one note");
   assert.isTrue(x.notes.length === 2);
 };
 testCreateNote();
@@ -47,7 +39,8 @@ function testNoteView(){
   n.createNote("first thing");
   n.createNote("second thing");
   const p = new NoteListView(n);
-  assert.isTrue(p.viewNotes() === "<ul><li><div>first thing</div></li><li><div>second thing</div></li></ul>")
+  console.log(p.viewNotes());
+  assert.isTrue(p.viewNotes() === '<ul><li><div><a href="#notes/0">first thing</a></div></li><li><div><a href="#notes/1">second thing</a></div></li></ul>');
 };
 testNoteView();
 
@@ -62,11 +55,12 @@ testNoteControllerCanBeInstantiated();
 
 function testGetHTMLReturnsCorrectHTML(){
   function DoubleList() {
-    this.notes = [{text: "fake note 1"} , {text: "fake note 2"}]
+    this.notes = [{text: "fake note 1", noteID: 0} , {text: "fake note 2", noteID: 1}]
   };
   const dl = new DoubleList();
   const nc = new NoteController(dl);
-  assert.isTrue(nc.getHTML() === "<ul><li><div>fake note 1</div></li><li><div>fake note 2</div></li></ul>")
+  console.log(nc.getHTML());
+  assert.isTrue(nc.getHTML() === '<ul><li><div><a href="#notes/0">fake note 1</a></div></li><li><div><a href="#notes/1">fake note 2</a></div></li></ul>');
 };
 testGetHTMLReturnsCorrectHTML();
 
@@ -88,14 +82,15 @@ function testDisplayFirst20Characters(){
   const nl = new NoteList();
   nl.createNote("this is more than 20 characters so should not be fully displayed!");
   const nlv = new NoteListView(nl);
-  assert.isTrue(nlv.viewNotes() === "<ul><li><div>this is more than 20</div></li></ul>");
+  assert.isTrue(nlv.viewNotes() === '<ul><li><div><a href="#notes/0">this is more than 20</a></div></li></ul>');
 };
 testDisplayFirst20Characters();
 
 function testNoteHasID(){
-  const n1 = new Note("first thing", assignID);
-  const n2 = new Note("first thing", assignID);
-  assert.isTrue(n1.noteID === 0);
-  assert.isTrue(n2.noteID === 1);
+  const nl1 = new NoteList();
+  nl1.createNote("first thing");
+  nl1.createNote("second thing");
+  assert.isTrue(nl1.notes[0].noteID === 0);
+  assert.isTrue(nl1.notes[1].noteID === 1);
 };
 testNoteHasID();
