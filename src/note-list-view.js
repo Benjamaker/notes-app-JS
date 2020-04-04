@@ -18,10 +18,6 @@ NoteListView.prototype.viewNotes = function(){
   return finalOutput;
 };
 
-NoteListView.prototype.getNoteID = function(){
-  let id = (this.notelist.notes).map(item => item.noteID);
-};
-
 NoteListView.prototype.limitedString = function(string){
   if (string.length > 20) {
     return string.substr(0, 20);

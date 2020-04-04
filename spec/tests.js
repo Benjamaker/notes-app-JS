@@ -54,9 +54,6 @@ function testNoteControllerCanBeInstantiated(){
 testNoteControllerCanBeInstantiated();
 
 function testGetHTMLReturnsCorrectHTML(){
-  function DoubleList() {
-    this.notes = [{text: "fake note 1", noteID: 0} , {text: "fake note 2", noteID: 1}]
-  };
   const dl = new DoubleList();
   const nc = new NoteController(dl);
   console.log(nc.getHTML());
